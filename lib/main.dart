@@ -42,13 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
         controller: controller,
         children: const [
           DetailPage(),
-          Volltank()
+          Volltank(),
+          SpritNachGeld()
         ],
       )
     );
     }
 }
-
+//Page um Verbrauch für bestimmte Strecke zu berechnen
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
 
@@ -88,8 +89,8 @@ class _DetailPageState extends State<DetailPage> {
             children: <Widget>[
 
           InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate,),
-          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'l/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
-          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/l', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
+          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
           Button(function: _calculate),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +114,7 @@ class _DetailPageState extends State<DetailPage> {
 }
 
 
-
+//Page Volltank
 class Volltank extends StatefulWidget {
   const Volltank({Key? key}) : super(key: key);
 
@@ -135,7 +136,7 @@ class _VolltankState extends State<Volltank> {
     setState(() {
       _liter = int.parse(_literController.text);
       _sprit = double.parse(_spritController.text);
-      _volltank = _sprit * _liter;
+      _volltank = double.parse((_sprit * _liter).toStringAsFixed(2));
     });
   }
 
@@ -154,7 +155,7 @@ class _VolltankState extends State<Volltank> {
           InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
           Button(function: _calculateVolltank),
           Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -164,8 +165,6 @@ class _VolltankState extends State<Volltank> {
                 ],
               )
           ),
-
-
         ],
       ),
     );
@@ -173,6 +172,81 @@ class _VolltankState extends State<Volltank> {
 }
 
 
+class SpritNachGeld extends StatefulWidget {
+  const SpritNachGeld({Key? key}) : super(key: key);
+
+  @override
+  _SpritNachGeldState createState() => _SpritNachGeldState();
+}
+
+class _SpritNachGeldState extends State<SpritNachGeld> {
+
+  var _geldController = TextEditingController();
+  var _spritController = TextEditingController();
+  var _verbrauchController = TextEditingController();
+  double _geld = 0;
+  double _sprit = 0;
+  double _verbrauch = 0;
+  double erwarteterSprit = 0;
+  double strecke= 0;
+
+
+  void _wieViel(){
+    setState(() {
+      _geld = double.parse(_geldController.text);
+      _sprit = double.parse(_spritController.text);
+      _verbrauch = double.parse(_verbrauchController.text);
+      erwarteterSprit = double.parse((_geld/_sprit).toStringAsFixed(1));
+      strecke = double.parse(((erwarteterSprit/_verbrauch)*100).toStringAsFixed(1));
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
+        child: Column(
+          children: [
+            Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold')),
+            InputRow(message: "Verfügbares Geld", end: 60, tfmessage: "€", hintmessage: "Geld", variable: _geld, controller: _geldController, function: _wieViel),
+            InputRow(message: "Spritpreis", end: 10, tfmessage: "€/L", hintmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel),
+            InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
+            Button(function: _wieViel),
+            Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 39, 0, 0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
+                        Output(ergebnis: erwarteterSprit > 0 ? "${erwarteterSprit.toString()} l" : '-'),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.add_road, size: 50, color: Colors.blueGrey),
+                        Output(ergebnis: strecke > 0 ? "${strecke.toString()} km" : "-")
+                      ],
+                    )
+                  ],
+                )
+
+            ),
+          ],
+        ),
+      )
+
+    );
+  }
+}
+
+
+
+//ActionButton
 class Button extends StatelessWidget {
    Button({Key? key, required this.function}) : super(key: key);
 
