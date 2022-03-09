@@ -32,6 +32,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final controller = PageController(initialPage: 0);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PageView(
+        controller: controller,
+        children: const [
+          DetailPage(),
+          Volltank()
+        ],
+      )
+    );
+    }
+}
+
+class DetailPage extends StatefulWidget {
+  const DetailPage({Key? key}) : super(key: key);
+
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+
   double _verbrauch = 0;
   int _strecke = 0;
   double _verbrauchIns = 0;
@@ -52,50 +78,116 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(10, 40, 20, 20),
-        child: Center(
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(10, 40, 20, 20),
+      child: Center(
           child: Column(
             children: <Widget>[
 
-              InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate,),
-              InputRow(message: 'Verbrauch', end: 10, tfmessage: 'l/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
-              InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/l', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
-              OutlinedButton(
-                child: const Text("Calculate", style: TextStyle(fontSize: 20.0),),
-                onPressed: _calculate,
-                style: OutlinedButton.styleFrom(
-                    primary: Colors.blueGrey,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                    side: const BorderSide(color: Colors.blueGrey)
-                ),
-              ),
-              Container(
-                    child: Column(
-                      children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                    Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
-                    Output(ergebnis: _verbrauchIns > 0 ? "${_verbrauchIns.toString()} l" : '-'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.attach_money, size: 50, color: Colors.blueGrey),
-                      Output(ergebnis: _preis > 0 ? "${_preis.toString()} €" : '-')
-                    ],
-                  )
-              ],)
-              )
-              ],
+          InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate,),
+          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'l/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/l', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
+          Button(function: _calculate),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
+              Output(ergebnis: _verbrauchIns > 0 ? "${_verbrauchIns.toString()} l" : '-'),
+            ],
           ),
-        ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.attach_money, size: 50, color: Colors.blueGrey),
+              Output(ergebnis: _preis > 0 ? "${_preis.toString()} €" : '-')
+            ],
+          )
+      ],
+    ),
+    ),
+    );
+  }
+}
+
+
+
+class Volltank extends StatefulWidget {
+  const Volltank({Key? key}) : super(key: key);
+
+  @override
+  _VolltankState createState() => _VolltankState();
+}
+
+class _VolltankState extends State<Volltank> {
+
+  var _literController = TextEditingController();
+  var _spritController = TextEditingController();
+  double _sprit = 0;
+  int _liter = 0;
+  double _volltank = 0;
+
+
+
+  void _calculateVolltank() {
+    setState(() {
+      _liter = int.parse(_literController.text);
+      _sprit = double.parse(_spritController.text);
+      _volltank = _sprit * _liter;
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsetsDirectional.all(60),
+            child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
+          ),
+
+          InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
+          Button(function: _calculateVolltank),
+          Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey),
+                  const Icon(Icons.attach_money_rounded, size: 50, color: Colors.blueGrey,),
+                  Output(ergebnis: _volltank > 0 ? "${_volltank.toString()} €" : '-')
+                ],
+              )
+          ),
+
+
+        ],
+      ),
+    );
+  }
+}
+
+
+class Button extends StatelessWidget {
+   Button({Key? key, required this.function}) : super(key: key);
+
+  var function;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      child: const Text("Calculate", style: TextStyle(fontSize: 20.0),),
+      onPressed: function,
+      style: OutlinedButton.styleFrom(
+        padding: EdgeInsets.all(10),
+          primary: Colors.blueGrey,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          side: const BorderSide(color: Colors.blueGrey)
       ),
     );
   }
