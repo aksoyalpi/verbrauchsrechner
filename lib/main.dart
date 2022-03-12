@@ -88,9 +88,9 @@ class _DetailPageState extends State<DetailPage> {
           child: Column(
             children: <Widget>[
 
-          InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate,),
-          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
-          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
+          InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate(),),
+          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate()),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate()),
           Button(function: _calculate),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -124,8 +124,8 @@ class Volltank extends StatefulWidget {
 
 class _VolltankState extends State<Volltank> {
 
-  var _literController = TextEditingController();
-  var _spritController = TextEditingController();
+  final _literController = TextEditingController();
+  final  _spritController = TextEditingController();
   double _sprit = 0;
   int _liter = 0;
   double _volltank = 0;
@@ -151,8 +151,8 @@ class _VolltankState extends State<Volltank> {
             child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
           ),
 
-          InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
-          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
+          InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank()),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank()),
           Button(function: _calculateVolltank),
           Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
@@ -181,9 +181,9 @@ class SpritNachGeld extends StatefulWidget {
 
 class _SpritNachGeldState extends State<SpritNachGeld> {
 
-  var _geldController = TextEditingController();
-  var _spritController = TextEditingController();
-  var _verbrauchController = TextEditingController();
+  final _geldController = TextEditingController();
+  final _spritController = TextEditingController();
+  final _verbrauchController = TextEditingController();
   double _geld = 0;
   double _sprit = 0;
   double _verbrauch = 0;
@@ -206,16 +206,16 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
         child: Column(
           children: [
-            Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold')),
-            InputRow(message: "Verfügbares Geld", end: 60, tfmessage: "€", hintmessage: "Geld", variable: _geld, controller: _geldController, function: _wieViel),
-            InputRow(message: "Spritpreis", end: 10, tfmessage: "€/L", hintmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel),
-            InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
+            const Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold')),
+            InputRow(message: "Verfügbares Geld", end: 60, tfmessage: "€", hintmessage: "Geld", variable: _geld, controller: _geldController, function: _wieViel()),
+            InputRow(message: "Spritpreis", end: 10, tfmessage: "€/L", hintmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel()),
+            InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel()),
             Button(function: _wieViel),
             Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 39, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 39, 0, 0),
                 child: Column(
                   children: [
                     Row(
@@ -248,17 +248,17 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
 
 //ActionButton
 class Button extends StatelessWidget {
-   Button({Key? key, required this.function}) : super(key: key);
+   const Button({Key? key, required this.function}) : super(key: key);
 
-  var function;
+  final function;
 
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-      child: const Text("Calculate", style: TextStyle(fontSize: 20.0),),
+      child: const Text("Calculate", style: TextStyle(fontSize: 20),),
       onPressed: function,
       style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
           primary: Colors.blueGrey,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           side: const BorderSide(color: Colors.blueGrey)
@@ -290,7 +290,7 @@ class _OutputState extends State<Output> {
 
 
 class InputRow extends StatefulWidget {
-  InputRow({Key? key, required this.message, required this.end, required this.tfmessage, required this.hintmessage, required this.variable, required this.controller, required this.function}) : super(key: key);
+  const InputRow({Key? key, required this.message, required this.end, required this.tfmessage, required this.hintmessage, required this.variable, required this.controller, required this.function}) : super(key: key);
 
   @override
   _InputRowState createState() => _InputRowState();
@@ -299,9 +299,9 @@ class InputRow extends StatefulWidget {
   final double end;
   final String tfmessage;
   final String hintmessage;
-  double variable;
-  var controller = TextEditingController();
-  var function;
+  final double variable;
+  final TextEditingController controller;
+  final void function;
 }
 
 
@@ -330,7 +330,5 @@ class _InputRowState extends State<InputRow> {
       ),
 
     );
-
   }
 }
-
