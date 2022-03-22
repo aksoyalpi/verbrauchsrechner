@@ -38,7 +38,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
+      body: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                opacity: 0.05,
+                image: AssetImage("images/gas-station.jpg"),
+                fit: BoxFit.cover),
+          ),
+      child: PageView(
         controller: controller,
         children: const [
           DetailPage(),
@@ -46,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SpritNachGeld()
         ],
       )
-    );
+    ));
     }
 }
 //Page um Verbrauch für bestimmte Strecke zu berechnen
@@ -88,9 +96,9 @@ class _DetailPageState extends State<DetailPage> {
           child: Column(
             children: <Widget>[
 
-          InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate(),),
-          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate()),
-          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate()),
+          InputRow(message: 'Strecke', end: 50, tfmessage: 'km', hintmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate),
+          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
           Button(function: _calculate),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -143,19 +151,18 @@ class _VolltankState extends State<Volltank> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
+    return Column(
+        children: <Widget>[
           const Padding(
             padding: EdgeInsetsDirectional.all(60),
             child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
           ),
 
-          InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank()),
-          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank()),
+          InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
+          InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
           Button(function: _calculateVolltank),
           Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 80, 0, 0),
+              padding: const EdgeInsetsDirectional.only(top: 80),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -166,8 +173,7 @@ class _VolltankState extends State<Volltank> {
               )
           ),
         ],
-      ),
-    );
+      );
   }
 }
 
@@ -208,26 +214,26 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(0, 60, 0, 0),
         child: Column(
-          children: [
+          children: <Widget>[
             const Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold')),
-            InputRow(message: "Verfügbares Geld", end: 60, tfmessage: "€", hintmessage: "Geld", variable: _geld, controller: _geldController, function: _wieViel()),
-            InputRow(message: "Spritpreis", end: 10, tfmessage: "€/L", hintmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel()),
-            InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel()),
+            InputRow(message: "Verfügbares Geld", end: 60, tfmessage: "€", hintmessage: "Geld", variable: _geld, controller: _geldController, function: _wieViel),
+            InputRow(message: "Spritpreis", end: 10, tfmessage: "€/L", hintmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel),
+            InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
             Button(function: _wieViel),
             Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 39, 0, 0),
+                padding: const EdgeInsetsDirectional.only(top: 39),
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
                         Output(ergebnis: erwarteterSprit > 0 ? "${erwarteterSprit.toString()} l" : '-'),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         const Icon(Icons.add_road, size: 50, color: Colors.blueGrey),
                         Output(ergebnis: strecke > 0 ? "${strecke.toString()} km" : "-")
                       ],
@@ -248,9 +254,9 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
 
 //ActionButton
 class Button extends StatelessWidget {
-   const Button({Key? key, required this.function}) : super(key: key);
+    Button({Key? key, required this.function}) : super(key: key);
 
-  final function;
+  var function;
 
   @override
   Widget build(BuildContext context) {
