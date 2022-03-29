@@ -134,9 +134,12 @@ class _VolltankState extends State<Volltank> {
 
   final _literController = TextEditingController();
   final  _spritController = TextEditingController();
+  final _verbrauchController = TextEditingController();
   double _sprit = 0;
   int _liter = 0;
+  double _verbrauch = 0;
   double _volltank = 0;
+  double _streckeVolltank = 0;
 
 
 
@@ -144,7 +147,9 @@ class _VolltankState extends State<Volltank> {
     setState(() {
       _liter = int.parse(_literController.text);
       _sprit = double.parse(_spritController.text);
+      _verbrauch = double.parse(_verbrauchController.text);
       _volltank = double.parse((_sprit * _liter).toStringAsFixed(2));
+      _streckeVolltank = double.parse(((_liter / _verbrauch)*100).toStringAsFixed(2));
     });
   }
 
@@ -154,23 +159,36 @@ class _VolltankState extends State<Volltank> {
     return Column(
         children: <Widget>[
           const Padding(
-            padding: EdgeInsetsDirectional.all(60),
+            padding: EdgeInsetsDirectional.only(top: 45),
             child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
           ),
 
           InputRow(message: 'Gesamtaufnahme', end: 10, tfmessage: 'L', hintmessage: 'Gesamt Liter', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
           InputRow(message: 'Spritpreis', end: 10, tfmessage: '€/L', hintmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
+          InputRow(message: 'Verbrauch', end: 10, tfmessage: 'L/100km', hintmessage: 'verbrauch', variable: _verbrauch, controller: _verbrauchController, function: _calculateVolltank),
           Button(function: _calculateVolltank),
           Padding(
-              padding: const EdgeInsetsDirectional.only(top: 80),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey),
-                  const Icon(Icons.attach_money_rounded, size: 50, color: Colors.blueGrey,),
-                  Output(ergebnis: _volltank > 0 ? "${_volltank.toString()} €" : '-')
-                ],
-              )
+              padding: const EdgeInsetsDirectional.only(top: 20),
+              child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey),
+                        const Icon(Icons.attach_money_rounded, size: 50, color: Colors.blueGrey,),
+                        Output(ergebnis: _volltank > 0 ? "${_volltank.toString()} €" : '-')
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.add_road, size: 50, color: Colors.blueGrey),
+                        Output(ergebnis: _streckeVolltank > 0 ? "${_streckeVolltank.toString()} km" : '-')
+                      ],
+                    )
+                  ]
+
+              ),
           ),
         ],
       );
@@ -221,7 +239,7 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
             InputRow(message: 'Verbrauch', end: 10, tfmessage: "L/100km", hintmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
             Button(function: _wieViel),
             Padding(
-                padding: const EdgeInsetsDirectional.only(top: 39),
+                padding: const EdgeInsetsDirectional.only(top: 20),
                 child: Column(
                   children: <Widget>[
                     Row(
