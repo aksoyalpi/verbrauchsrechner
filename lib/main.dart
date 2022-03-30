@@ -96,9 +96,9 @@ class _DetailPageState extends State<DetailPage> {
           child: Column(
             children: <Widget>[
 
-          InputRow(end: 100, tfmessage: 'Strecke', hintmessage: 'km', variable: _strecke.toDouble(), controller: streckeController, function: _calculate),
-          InputRow(end: 10, tfmessage: 'Verbrauch', hintmessage: 'l/100km', variable: _verbrauch, controller: verbrauchController, function: _calculate),
-          InputRow(end: 10, tfmessage: 'Spritpreis', hintmessage: '€/L', variable: _spritpreis, controller: spritController, function: _calculate),
+          InputRow(end: 100, tfmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate),
+          InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
+          InputRow(end: 10, tfmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
           Button(function: _calculate),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -165,9 +165,9 @@ class _VolltankState extends State<Volltank> {
               child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
             ),
 
-            InputRow(end: 20, tfmessage: 'Gesamtaufnahme', hintmessage: 'Sprit in l', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
-            InputRow(end: 10, tfmessage: 'Spritpreis', hintmessage: '€/L', variable: _sprit, controller: _spritController, function: _calculateVolltank),
-            InputRow(end: 10, tfmessage: 'Verbrauch', hintmessage: 'l/100km', variable: _verbrauch, controller: _verbrauchController, function: _calculateVolltank),
+            InputRow(end: 20, tfmessage: 'Gesamtaufnahme', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
+            InputRow(end: 10, tfmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
+            InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: _verbrauchController, function: _calculateVolltank),
             Button(function: _calculateVolltank),
             Column(
                 children: <Widget>[
@@ -234,9 +234,9 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
         child: Column(
           children: <Widget>[
             const Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
-            InputRow(end: 100, tfmessage: "verfügbares Geld", hintmessage: "€", variable: _geld, controller: _geldController, function: _wieViel),
-            InputRow(end: 10, tfmessage: "Spritpreis", hintmessage: "€/L", variable: _sprit, controller: _spritController, function: _wieViel),
-            InputRow(end: 10, tfmessage: "Verbrauch", hintmessage: "L/100km", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
+            InputRow(end: 100, tfmessage: "verfügbares Geld", variable: _geld, controller: _geldController, function: _wieViel),
+            InputRow(end: 10, tfmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel),
+            InputRow(end: 10, tfmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
             Button(function: _wieViel),
             Padding(
                 padding: const EdgeInsetsDirectional.only(top: 20),
@@ -318,14 +318,13 @@ class _OutputState extends State<Output> {
 
 
 class InputRow extends StatefulWidget {
-  const InputRow({Key? key,required this.end, required this.tfmessage, required this.hintmessage, required this.variable, required this.controller, required this.function}) : super(key: key);
+  const InputRow({Key? key,required this.end, required this.tfmessage, required this.variable, required this.controller, required this.function}) : super(key: key);
 
   @override
   _InputRowState createState() => _InputRowState();
 
   final double end;
   final String tfmessage;
-  final String hintmessage;
   final double variable;
   final TextEditingController controller;
   final void function;
@@ -346,8 +345,7 @@ class _InputRowState extends State<InputRow> {
             controller: widget.controller,
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              labelText: widget.tfmessage,
-              hintText: widget.hintmessage,
+              labelText: widget.tfmessage, labelStyle: const TextStyle(color: Colors.white60),
             ),
           )
         ],
