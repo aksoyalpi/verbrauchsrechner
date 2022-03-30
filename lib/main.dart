@@ -165,8 +165,7 @@ class _VolltankState extends State<Volltank> {
               padding: EdgeInsetsDirectional.only(top: 30),
               child: Text('Volltank', style: TextStyle(fontSize: 54, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
             ),
-
-            InputRow(end: 40, tfmessage: 'Gesamtaufnahme', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
+            InputRow(end: 70, tfmessage: 'Gesamtaufnahme', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
             InputRow(end: 10, tfmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
             InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: _verbrauchController, function: _calculateVolltank),
             Button(function: _calculateVolltank),
