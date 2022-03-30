@@ -94,26 +94,27 @@ class _DetailPageState extends State<DetailPage> {
       padding: const EdgeInsetsDirectional.fromSTEB(10, 40, 20, 20),
       child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-
-          InputRow(end: 100, tfmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate),
-          InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
-          InputRow(end: 10, tfmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
-          Button(function: _calculate),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
-              Output(ergebnis: _verbrauchIns > 0 ? "${_verbrauchIns.toString()} l" : '-'),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.attach_money, size: 50, color: Colors.blueGrey),
-              Output(ergebnis: _preis > 0 ? "${_preis.toString()} €" : '-')
-            ],
-          )
+              Text('Kosten für Strecke', style: TextStyle(fontSize: 42, color: Colors.white60, fontFamily: 'RobotoMono-bold'), textAlign: TextAlign.center,),
+              InputRow(end: 50, tfmessage: 'Strecke', variable: _strecke.toDouble(), controller: streckeController, function: _calculate),
+              InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: verbrauchController, function: _calculate),
+              InputRow(end: 10, tfmessage: 'Spritpreis', variable: _spritpreis, controller: spritController, function: _calculate),
+              Button(function: _calculate),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.local_gas_station_rounded, size: 50, color: Colors.blueGrey,),
+                  Output(ergebnis: _verbrauchIns > 0 ? "${_verbrauchIns.toString()} l" : '-'),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.attach_money, size: 50, color: Colors.blueGrey),
+                  Output(ergebnis: _preis > 0 ? "${_preis.toString()} €" : '-')
+                ],
+              )
       ],
     ),
     ),
@@ -162,10 +163,10 @@ class _VolltankState extends State<Volltank> {
           children: <Widget>[
             const Padding(
               padding: EdgeInsetsDirectional.only(top: 30),
-              child: Text('Volltank', style: TextStyle(fontSize: 60, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
+              child: Text('Volltank', style: TextStyle(fontSize: 54, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
             ),
 
-            InputRow(end: 20, tfmessage: 'Gesamtaufnahme', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
+            InputRow(end: 40, tfmessage: 'Gesamtaufnahme', variable: _liter.toDouble(), controller: _literController, function: _calculateVolltank),
             InputRow(end: 10, tfmessage: 'Spritpreis', variable: _sprit, controller: _spritController, function: _calculateVolltank),
             InputRow(end: 10, tfmessage: 'Verbrauch', variable: _verbrauch, controller: _verbrauchController, function: _calculateVolltank),
             Button(function: _calculateVolltank),
@@ -232,9 +233,10 @@ class _SpritNachGeldState extends State<SpritNachGeld> {
       child: Padding(
         padding: const EdgeInsetsDirectional.fromSTEB(10, 40, 20, 20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Wie viel Sprit für wie viel Geld?", style: TextStyle(fontSize: 20, color: Colors.white60, fontFamily: 'RobotoMono-bold'),),
-            InputRow(end: 100, tfmessage: "verfügbares Geld", variable: _geld, controller: _geldController, function: _wieViel),
+            const Text("Sprit für verfügbares Geld", style: TextStyle(fontSize: 42, color: Colors.white60, fontFamily: 'RobotoMono-bold'), textAlign: TextAlign.center,),
+            InputRow(end: 30, tfmessage: "verfügbares Geld", variable: _geld, controller: _geldController, function: _wieViel),
             InputRow(end: 10, tfmessage: "Spritpreis", variable: _sprit, controller: _spritController, function: _wieViel),
             InputRow(end: 10, tfmessage: "Verbrauch", variable: _verbrauch, controller: _verbrauchController, function: _wieViel),
             Button(function: _wieViel),
